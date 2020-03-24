@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">JAVAngers</string>
+    <string name="WelcomeMessageFR">Bienvenue sur le projet JAVAngers (Katherine, Charline, Valentin, Ugo)</string>
 </resources>
