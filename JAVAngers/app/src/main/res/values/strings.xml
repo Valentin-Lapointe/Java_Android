@@ -25,4 +25,6 @@
     <string name="title_activity_incident">Incident</string>
     <string name="title_activity_hero">Hero</string>
     <string name="title_activity_users">Utilisateurs</string>
+    <string name="title_activity_hero_menu">menu héros</string>
+    <string name="remplrapp">Remplir un rapport de mission</string>
 </resources>
