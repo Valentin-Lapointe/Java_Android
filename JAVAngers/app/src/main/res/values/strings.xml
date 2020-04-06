@@ -24,4 +24,5 @@
     <string name="title_activity_incidents">Incidents</string>
     <string name="title_activity_incident">Incident</string>
     <string name="title_activity_hero">Hero</string>
+    <string name="title_activity_users">Utilisateurs</string>
 </resources>
