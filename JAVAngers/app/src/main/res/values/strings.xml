@@ -3,4 +3,6 @@
     <string name="WelcomeMessageFR">Bienvenue sur le projet JAVAngers (Katherine, Charline, Valentin, Ugo)</string>
     <string name="Connexion">Connexion</string>
     <string name="warningconnexion">L\'application JAVAngers ne pourra être tenue responsable en cas de perte d\'un membre ou de la vie de l\'utilisateur subséquent à l\'utilisation de ladite application</string>
+    <string name="inscription">inscription</string>
+    <string name="title_activity_inscription">Inscription</string>
 </resources>
