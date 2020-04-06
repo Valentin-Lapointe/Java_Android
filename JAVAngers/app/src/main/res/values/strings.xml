@@ -8,4 +8,9 @@
     <string name="title_activity_profile_form">Profile Form</string>
     <string name="Profile_form_header">Bienvenue sur l\'application JAVAngers, veuillez compléter votre profil pour continuer</string>
     <string name="Enregistrer">Enregistrer</string>
+    <string name="title_activity_user__menu">User Menu</string>
+    <string name="declincident">Déclarer un incident</string>
+    <string name="decllitige">Déclarer un litige</string>
+    <string name="remplirsatis">Remplir une enquète de satisfaction</string>
+    <string name="modifprofile">Modifier mon profil</string>
 </resources>

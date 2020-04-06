@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".User_Menu"
+            android:label="@string/title_activity_user__menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Profile_form"
             android:label="@string/title_activity_profile_form"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Inscription"
             android:label="@string/title_activity_inscription"
