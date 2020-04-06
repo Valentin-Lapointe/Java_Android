@@ -13,4 +13,6 @@
     <string name="decllitige">Déclarer un litige</string>
     <string name="remplirsatis">Remplir une enquète de satisfaction</string>
     <string name="modifprofile">Modifier mon profil</string>
+    <string name="title_activity_incident_declaration">Déclarer un incident</string>
+    <string name="valid">Valider</string>
 </resources>
