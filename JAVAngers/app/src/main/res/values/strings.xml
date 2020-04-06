@@ -15,4 +15,9 @@
     <string name="modifprofile">Modifier mon profil</string>
     <string name="title_activity_incident_declaration">Déclarer un incident</string>
     <string name="valid">Valider</string>
+    <string name="title_activity_su_menu">Menu Super Admin</string>
+    <string name="Missions">Missions</string>
+    <string name="Crises">Crises</string>
+    <string name="Incidents">Incidents</string>
+    <string name="Users">Utilisateurs</string>
 </resources>
