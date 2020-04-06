@@ -22,4 +22,5 @@
     <string name="Users">Utilisateurs</string>
     <string name="title_activity_missions">Missions</string>
     <string name="title_activity_incidents">Incidents</string>
+    <string name="title_activity_incident">Incident</string>
 </resources>

@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Incident"
+            android:label="@string/title_activity_incident"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Incidents"
             android:label="@string/title_activity_incidents"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Missions"
             android:label="@string/title_activity_missions"
