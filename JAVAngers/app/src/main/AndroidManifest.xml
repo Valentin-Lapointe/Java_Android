@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Incidents"
+            android:label="@string/title_activity_incidents"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Missions"
             android:label="@string/title_activity_missions"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SU_menu"
             android:label="@string/title_activity_su_menu"
