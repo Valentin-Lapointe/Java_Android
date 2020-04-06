@@ -9,6 +9,50 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".Hero_menu"
+            android:label="@string/title_activity_hero_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Users"
+            android:label="@string/title_activity_users"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Hero"
+            android:label="@string/title_activity_hero"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Incident"
+            android:label="@string/title_activity_incident"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Incidents"
+            android:label="@string/title_activity_incidents"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Missions"
+            android:label="@string/title_activity_missions"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SU_menu"
+            android:label="@string/title_activity_su_menu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".incident_declaration"
+            android:label="@string/title_activity_incident_declaration"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".User_Menu"
+            android:label="@string/title_activity_user__menu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Profile_form"
+            android:label="@string/title_activity_profile_form"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Inscription"
+            android:label="@string/title_activity_inscription"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
