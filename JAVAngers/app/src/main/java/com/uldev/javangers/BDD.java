@@ -8,8 +8,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.lang.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class BDD extends AsyncTask<URL, Integer, Long> {
+public class BDD extends AsyncTask<String, Integer, Long> {
+
+    //paramètres pour les fonctions
+    String comment = "";
+    Integer status = null;
+    Integer fkcivil = null;
+
+
     protected void request() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -46,9 +56,52 @@ public class BDD extends AsyncTask<URL, Integer, Long> {
             }
         }
 
+    protected void createdemande(String comment, Integer status, Integer fkcivil) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("toto");
+        }
+        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
+        String user = "170323_ugo";
+        String passwd = "CHz93r3K3uUnyEPhP8Bf";
+
+        Connection conn = null;
+        try {
+            /* Initializing the connection */
+            conn = DriverManager.getConnection(url, user, passwd);
+
+            Statement statement = conn.createStatement();
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+
+            statement.executeUpdate("INSERT INTO t_Incident (Comment, Status, FK_Civil, CreationDate, LastModificationDate) VALUES ('" + comment + "', " + status + ", " + fkcivil + ", '"+ dateFormat.format(date) +"', '"+ dateFormat.format(date) +"')");
+
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
+                }
+            }
+        }
+    }
+
     @Override
-    protected Long doInBackground(URL... urls) {
-        request();
+    protected Long doInBackground(String... functions) {
+        for (String function : functions) {
+            if (function.equals("request")){
+                request();
+            }
+            if (function.equals("createdemande")){
+                createdemande(comment, status, fkcivil);
+            }
+        }
         return null;
     }
 }
