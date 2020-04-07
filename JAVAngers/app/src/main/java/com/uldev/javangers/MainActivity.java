@@ -15,9 +15,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void TestConn(View view) {
+//        BDD BDDconn = new BDD();
+//        BDDconn.execute("request");
         BDD BDDconn = new BDD();
-        URL url = null;
-        BDDconn.execute(url);
+        BDDconn.comment = "ceci est une demande créer via l'appli JAVAngers !";
+        BDDconn.status = 1;
+        BDDconn.fkcivil = 1;
+        BDDconn.execute("createdemande");
+
         // Do something in response to button click
     }
 }
