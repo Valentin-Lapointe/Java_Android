@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 //        BDD BDDconn = new BDD();
 //        BDDconn.execute("request");
         BDD BDDconn = new BDD();
-        BDDconn.comment = "ceci est une demande créer via l'appli JAVAngers !";
+        BDDconn.comment = "ceci est une demande créée via notre appli JAVAngers";
         BDDconn.status = 1;
         BDDconn.fkcivil = 1;
         BDDconn.execute("createdemande");

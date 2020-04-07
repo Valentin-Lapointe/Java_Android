@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.lang.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BDD extends AsyncTask<String, Integer, Long> {
 
@@ -70,7 +73,10 @@ public class BDD extends AsyncTask<String, Integer, Long> {
 
             Statement statement = conn.createStatement();
 
-            statement.executeUpdate("INSERT INTO t_Incident (Comment, Status,FK_Civil) VALUES ('" + comment + "', " + status + ", " + fkcivil + ")");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+
+            statement.executeUpdate("INSERT INTO t_Incident (Comment, Status, FK_Civil, CreationDate, LastModificationDate) VALUES ('" + comment + "', " + status + ", " + fkcivil + ", '"+ dateFormat.format(date) +"', '"+ dateFormat.format(date) +"')");
 
         } catch (SQLException e) {
             System.out.println("SQL connection error: " + e.getMessage());
@@ -87,12 +93,14 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     }
 
     @Override
-    protected Long doInBackground(String... function) {
-        if (function.equals("request")){
-            request();
-        }
-        if (function.equals("createdemande")){
-            createdemande(comment, status, fkcivil);
+    protected Long doInBackground(String... functions) {
+        for (String function : functions) {
+            if (function.equals("request")){
+                request();
+            }
+            if (function.equals("createdemande")){
+                createdemande(comment, status, fkcivil);
+            }
         }
         return null;
     }
