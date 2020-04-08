@@ -20,6 +20,8 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     String comment = "";
     Integer status = null;
     Integer fkcivil = null;
+    String location = "";
+    Integer userID = null;
     String login = null;
     String password = null;
 
@@ -44,6 +46,42 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Login='test'");
             while (resultset.next()) {
                 System.out.println(resultset.getString(4));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    protected void foundcivilbyuser(Integer UserId) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("toto");
+        }
+        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
+        String user = "170323_ugo";
+        String passwd = "CHz93r3K3uUnyEPhP8Bf";
+
+        Connection conn = null;
+        try {
+            /* Initializing the connection */
+            conn = DriverManager.getConnection(url, user, passwd);
+
+            Statement statement = conn.createStatement();
+
+            ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Id=" + UserId.toString());
+            while (resultset.next()) {
+                fkcivil = resultset.getInt(7);
             }
 
         } catch (SQLException e) {
@@ -144,6 +182,9 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             }
             if (function.equals("createdemande")){
                 createdemande(comment, status, fkcivil);
+            }
+            if (function.equals("foundcivilbyuser")){
+                foundcivilbyuser(userID);
             }
             if (function.equals("signIn")){
                 signIn(login, password);
