@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.navigation.NavController;
 
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button button2;
+    private Button connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +28,30 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        this.connection = (Button) findViewById(R.id.connection);
+        connection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+
+                TestConn(view);
+
+                Intent indent = new Intent(getApplicationContext(), User_Menu.class);
+                startActivity(indent);
+                finish();
+            }
+        });
     }
 
     public void TestConn(View view) {
 //        BDD BDDconn = new BDD();
 //        BDDconn.execute("request");
         BDD BDDconn = new BDD();
-        BDDconn.comment = "ceci est une demande créée via notre appli JAVAngers";
-        BDDconn.status = 1;
-        BDDconn.fkcivil = 1;
-        BDDconn.execute("createdemande");
+        //BDDconn.comment = "ceci est une demande créée via notre appli JAVAngers";
+        //BDDconn.status = 1;
+        //BDDconn.fkcivil = 1;
+        //BDDconn.execute("createdemande");
+        BDDconn.execute("signIn");
 
         // Do something in response to button click
     }
