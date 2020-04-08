@@ -20,6 +20,8 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     String comment = "";
     Integer status = null;
     Integer fkcivil = null;
+    String login = null;
+    String password = null;
 
 
     protected void request() {
@@ -28,35 +30,35 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         } catch (ClassNotFoundException ex) {
             System.out.println("toto");
         }
-            String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
-            String user = "170323_ugo";
-            String passwd = "CHz93r3K3uUnyEPhP8Bf";
+        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
+        String user = "170323_ugo";
+        String passwd = "CHz93r3K3uUnyEPhP8Bf";
 
-            Connection conn = null;
-            try {
-                /* Initializing the connection */
-                conn = DriverManager.getConnection(url, user, passwd);
+        Connection conn = null;
+        try {
+            /* Initializing the connection */
+            conn = DriverManager.getConnection(url, user, passwd);
 
-                Statement statement = conn.createStatement();
+            Statement statement = conn.createStatement();
 
-                ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Login='test'");
-                while (resultset.next()) {
-                    System.out.println(resultset.getString(4));
-                }
+            ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Login='test'");
+            while (resultset.next()) {
+                System.out.println(resultset.getString(4));
+            }
 
-            } catch (SQLException e) {
-                System.out.println("SQL connection error: " + e.getMessage());
-            } finally {
-                if (conn != null) {
-                    try {
-                        /* CLosing connection */
-                        conn.close();
-                    } catch (SQLException e) {
-                        System.out.println("Error while closing the connection: " + e.getMessage());
-                    }
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
                 }
             }
         }
+    }
 
     protected void createdemande(String comment, Integer status, Integer fkcivil) {
         try {
@@ -124,7 +126,6 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                     System.out.println(user.login);
                     System.out.println(user.creationDate);
                 }
-
             } catch (Exception ex) {
                 System.out.println("debug : " + ex.getMessage());
             } finally {
@@ -145,7 +146,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                 createdemande(comment, status, fkcivil);
             }
             if (function.equals("signIn")){
-                signIn("test","testpassword");
+                signIn(login, password);
             }
         }
         return null;
