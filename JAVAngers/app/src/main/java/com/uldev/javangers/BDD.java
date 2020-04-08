@@ -17,9 +17,13 @@ import java.util.Date;
 public class BDD extends AsyncTask<String, Integer, Long> {
 
     //paramètres pour les fonctions
+    public static String password;
+    public static String login;
     String comment = "";
     Integer status = null;
     Integer fkcivil = null;
+    String location = "";
+    Integer userID = null;
 
     UserModel user = null;
 
@@ -30,35 +34,71 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         } catch (ClassNotFoundException ex) {
             System.out.println("toto");
         }
-            String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
-            String user = "170323_ugo";
-            String passwd = "CHz93r3K3uUnyEPhP8Bf";
+        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
+        String user = "170323_ugo";
+        String passwd = "CHz93r3K3uUnyEPhP8Bf";
 
-            Connection conn = null;
-            try {
-                /* Initializing the connection */
-                conn = DriverManager.getConnection(url, user, passwd);
+        Connection conn = null;
+        try {
+            /* Initializing the connection */
+            conn = DriverManager.getConnection(url, user, passwd);
 
-                Statement statement = conn.createStatement();
+            Statement statement = conn.createStatement();
 
-                ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Login='test'");
-                while (resultset.next()) {
-                    System.out.println(resultset.getString(4));
-                }
+            ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Login='test'");
+            while (resultset.next()) {
+                System.out.println(resultset.getString(4));
+            }
 
-            } catch (SQLException e) {
-                System.out.println("SQL connection error: " + e.getMessage());
-            } finally {
-                if (conn != null) {
-                    try {
-                        /* CLosing connection */
-                        conn.close();
-                    } catch (SQLException e) {
-                        System.out.println("Error while closing the connection: " + e.getMessage());
-                    }
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
                 }
             }
         }
+    }
+
+    protected void foundcivilbyuser(Integer UserId) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("toto");
+        }
+        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
+        String user = "170323_ugo";
+        String passwd = "CHz93r3K3uUnyEPhP8Bf";
+
+        Connection conn = null;
+        try {
+            /* Initializing the connection */
+            conn = DriverManager.getConnection(url, user, passwd);
+
+            Statement statement = conn.createStatement();
+
+            ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Id=" + UserId.toString());
+            while (resultset.next()) {
+                fkcivil = resultset.getInt(7);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
+                }
+            }
+        }
+    }
 
     protected void createdemande(String comment, Integer status, Integer fkcivil) {
         try {
@@ -126,6 +166,30 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                     System.out.println(user.login);
                     System.out.println(user.creationDate);
                 }
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
+    protected void signUp(String login, String password) {
+        try {
+            //on se connecte a la BDD
+            Statement statement = dbConnection().createStatement();
+            try {
+
+                //on recupere la date actuelle pour l'enregistrer en BDD
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+
+                // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
+                String sql = "INSERT INTO t_User (CreationDate, Login, Password, AdministrationRight) VALUES ('"+dateFormat.format(date)+"', '"+login+"', '"+password+"', '0')";
+                //on envoie la requete a la BDD pour inscrire l'utilisateur
+                statement.executeUpdate(sql);
 
             } catch (Exception ex) {
                  System.out.println("debug : " + ex.getMessage());
@@ -140,14 +204,21 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     @Override
     protected Long doInBackground(String... functions) {
         for (String function : functions) {
+            System.out.println(function);
             if (function.equals("request")){
                 request();
             }
             if (function.equals("createdemande")){
                 createdemande(comment, status, fkcivil);
             }
+            if (function.equals("foundcivilbyuser")){
+                foundcivilbyuser(userID);
+            }
             if (function.equals("signIn")){
-                signIn("test","testpassword");
+                signIn(login, password);
+            }
+            if (function.equals("signUp")){
+                signUp(login, password);
             }
         }
         return null;
