@@ -17,9 +17,15 @@ public class incident_declaration extends AppCompatActivity {
     }
 
     public void createIncident(View view) {
-        EditText EditText_titre = (EditText) findViewById (R.id.editText9);
         EditText EditText_endroit = (EditText) findViewById (R.id.editText10);
         EditText EditText_détails = (EditText) findViewById (R.id.editText12);
+        BDD BDDconn = new BDD();
+        BDDconn.comment = EditText_détails.getText().toString();
+        BDDconn.location = EditText_endroit.getText().toString();
+        int userID = getIntent().getIntExtra("userID", 0);
+        BDDconn.userID = userID;
+        BDDconn.doInBackground("foundcivilbyuser");
+        BDDconn.doInBackground("createdemande");
     }
 
 }
