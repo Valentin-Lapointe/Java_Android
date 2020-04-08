@@ -24,8 +24,6 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     Integer fkcivil = null;
     String location = "";
     Integer userID = null;
-    String login = null;
-    String password = null;
 
 
     protected void request() {
