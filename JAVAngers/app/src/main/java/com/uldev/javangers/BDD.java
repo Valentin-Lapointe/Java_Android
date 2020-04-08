@@ -1,6 +1,8 @@
 package com.uldev.javangers;
 import android.os.AsyncTask;
 
+import com.uldev.javangers.models.UserModel;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +22,8 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     Integer fkcivil = null;
     String location = "";
     Integer userID = null;
+    String login = null;
+    String password = null;
 
 
     protected void request() {
@@ -28,35 +32,35 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         } catch (ClassNotFoundException ex) {
             System.out.println("toto");
         }
-            String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
-            String user = "170323_ugo";
-            String passwd = "CHz93r3K3uUnyEPhP8Bf";
+        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
+        String user = "170323_ugo";
+        String passwd = "CHz93r3K3uUnyEPhP8Bf";
 
-            Connection conn = null;
-            try {
-                /* Initializing the connection */
-                conn = DriverManager.getConnection(url, user, passwd);
+        Connection conn = null;
+        try {
+            /* Initializing the connection */
+            conn = DriverManager.getConnection(url, user, passwd);
 
-                Statement statement = conn.createStatement();
+            Statement statement = conn.createStatement();
 
-                ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Login='test'");
-                while (resultset.next()) {
-                    System.out.println(resultset.getString(4));
-                }
+            ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Login='test'");
+            while (resultset.next()) {
+                System.out.println(resultset.getString(4));
+            }
 
-            } catch (SQLException e) {
-                System.out.println("SQL connection error: " + e.getMessage());
-            } finally {
-                if (conn != null) {
-                    try {
-                        /* CLosing connection */
-                        conn.close();
-                    } catch (SQLException e) {
-                        System.out.println("Error while closing the connection: " + e.getMessage());
-                    }
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
                 }
             }
         }
+    }
 
     protected void foundcivilbyuser(Integer UserId) {
         try {
@@ -130,6 +134,46 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         }
     }
 
+    protected Connection dbConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
+        String user = "170323_ugo";
+        String passwd = "CHz93r3K3uUnyEPhP8Bf";
+        try {
+            Connection conn =  DriverManager.getConnection(url, user, passwd);
+            return conn;
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+            return null;
+        }
+    }
+
+    protected void signIn(String login, String password) {
+        try {
+            Statement statement = dbConnection().createStatement();
+            try {
+                String sql = "SELECT * FROM t_User WHERE Login= '"+ login + "' AND Password= '"+ password +"'";
+                ResultSet result = statement.executeQuery(sql);
+                UserModel user;
+                while (result.next()) {
+                    user = new UserModel(result);
+                    System.out.println(user.login);
+                    System.out.println(user.creationDate);
+                }
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
     @Override
     protected Long doInBackground(String... functions) {
         for (String function : functions) {
@@ -141,6 +185,9 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             }
             if (function.equals("foundcivilbyuser")){
                 foundcivilbyuser(userID);
+            }
+            if (function.equals("signIn")){
+                signIn(login, password);
             }
         }
         return null;
