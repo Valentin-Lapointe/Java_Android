@@ -25,6 +25,8 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     String location = "";
     Integer userID = null;
 
+    UserModel user = null;
+
 
     protected void request() {
         try {
@@ -158,7 +160,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             try {
                 String sql = "SELECT * FROM t_User WHERE Login= '"+ login + "' AND Password= '"+ password +"'";
                 ResultSet result = statement.executeQuery(sql);
-                UserModel user;
+
                 while (result.next()) {
                     user = new UserModel(result);
                     System.out.println(user.login);
@@ -190,7 +192,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                 statement.executeUpdate(sql);
 
             } catch (Exception ex) {
-                System.out.println("debug : " + ex.getMessage());
+                 System.out.println("debug : " + ex.getMessage());
             } finally {
                 statement.close();
             }
