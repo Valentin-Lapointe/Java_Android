@@ -12,6 +12,7 @@ import android.widget.Toast;
 import android.widget.EditText;
 
 
+import com.uldev.javangers.models.UserModel;
 
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
@@ -50,48 +51,46 @@ public class MainActivity extends AppCompatActivity {
 
                 UserModel user = null;
                 try {
-                    user = TestConn(view);
+                    user = testConn(view);
                 } catch (Exception ex) {
                     System.out.println("debug : " + ex.getMessage());
                 }
 
                 if(user == null){
-                    Toast.makeText(getApplicationContext(), "Login ou mot de passe incorrect", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Idenfiants incorrects", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    switch (user.id_Civil){
+                    Class otherActivity = null;
+                    switch (user.administrationRight){
                         case 0: {
-                            Intent indent = new Intent(getApplicationContext(), User_Menu.class);
-                            indent.putExtra("id_User", user.id);
-                            startActivity(indent);
-                            finish();
+                            otherActivity = User_Menu.class;
+                            break;
                         }
                         case 1: {
-                            Intent indent = new Intent(getApplicationContext(), Hero_menu.class);
-                            indent.putExtra("id_User", user.id);
-                            startActivity(indent);
-                            finish();
+                            otherActivity = Hero_menu.class;
+                            break;
                         }
-                        /*case 2: {
-                            Intent indent = new Intent(getApplicationContext(), Admin_menu.class);
-                            indent.putExtra("id_User", user.id);
-                            startActivity(indent);
-                            finish();
-                        }*/
+                        case 2: {
+                            otherActivity = admin_menu.class;
+                            break;
+                        }
                         case 3: {
-                            Intent indent = new Intent(getApplicationContext(), SU_menu.class);
-                            indent.putExtra("id_User", user.id);
-                            startActivity(indent);
-                            finish();
+                            otherActivity = SU_menu.class;
+                            break;
                         }
                     }
+                    
+                    Intent indent = new Intent(getApplicationContext(), otherActivity);
+                    indent.putExtra("id_User", user.id);
+                    startActivity(indent);
+                    finish();
                 }
 
             }
         });
     }
 
-    public UserModel TestConn(View view) throws ExecutionException, InterruptedException {
+    public UserModel testConn(View view) throws ExecutionException, InterruptedException {
 //        BDD BDDconn = new BDD();
 //        BDDconn.execute("request");
         //BDDconn.comment = "ceci est une demande créée via notre appli JAVAngers";
