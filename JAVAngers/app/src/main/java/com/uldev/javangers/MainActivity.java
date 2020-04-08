@@ -11,7 +11,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button2;
+    private Button inscription;
     private Button connection;
 
     @Override
@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
+        this.inscription = (Button) findViewById(R.id.inscription);
+        inscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent otherActivity = new Intent(getApplicationContext(), Inscription.class);
