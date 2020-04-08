@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 import java.net.URL;
@@ -13,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button inscription;
     private Button connection;
+    private EditText login;
+    private EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +32,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        login = (EditText)findViewById(R.id.editText);
+        password = (EditText)findViewById(R.id.editText2);
         this.connection = (Button) findViewById(R.id.connection);
+
         connection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                System.out.println(login.getText().toString());
+                System.out.println(password.getText().toString());
 
                 TestConn(view);
 
@@ -46,13 +54,21 @@ public class MainActivity extends AppCompatActivity {
     public void TestConn(View view) {
 //        BDD BDDconn = new BDD();
 //        BDDconn.execute("request");
-        BDD BDDconn = new BDD();
         //BDDconn.comment = "ceci est une demande créée via notre appli JAVAngers";
         //BDDconn.status = 1;
         //BDDconn.fkcivil = 1;
         //BDDconn.execute("createdemande");
+        BDD BDDconn = new BDD();
+        BDDconn.login = login.getText().toString();
+        BDDconn.password = password.getText().toString();
         BDDconn.execute("signIn");
 
         // Do something in response to button click
     }
 }
+
+
+
+
+
+
