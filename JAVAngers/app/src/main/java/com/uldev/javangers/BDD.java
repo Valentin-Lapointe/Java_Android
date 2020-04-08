@@ -17,6 +17,8 @@ import java.util.Date;
 public class BDD extends AsyncTask<String, Integer, Long> {
 
     //paramètres pour les fonctions
+    public static String password;
+    public static String login;
     String comment = "";
     Integer status = null;
     Integer fkcivil = null;
@@ -135,9 +137,35 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         }
     }
 
+    protected void signUp(String login, String password) {
+        try {
+            //on se connecte a la BDD
+            Statement statement = dbConnection().createStatement();
+            try {
+
+                //on recupere la date actuelle pour l'enregistrer en BDD
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+
+                // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
+                String sql = "INSERT INTO t_User (CreationDate, Login, Password, AdministrationRight) VALUES ('"+dateFormat.format(date)+"', '"+login+"', '"+password+"', '0')";
+                //on envoie la requete a la BDD pour inscrire l'utilisateur
+                statement.executeUpdate(sql);
+
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
     @Override
     protected Long doInBackground(String... functions) {
         for (String function : functions) {
+            System.out.println(function);
             if (function.equals("request")){
                 request();
             }
@@ -146,6 +174,9 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             }
             if (function.equals("signIn")){
                 signIn("test","testpassword");
+            }
+            if (function.equals("signUp")){
+                signUp(login, password);
             }
         }
         return null;
