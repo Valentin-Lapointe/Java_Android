@@ -1,10 +1,11 @@
 package com.uldev.javangers.models;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-public class IncidentModel {
+public class IncidentModel implements Serializable {
 
     // Parametres
     public int id;

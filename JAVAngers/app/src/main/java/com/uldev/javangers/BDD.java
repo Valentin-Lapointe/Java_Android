@@ -172,6 +172,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                 getCivilById(user.id_Civil);
 
 
+
             } catch (Exception ex) {
                 System.out.println("debug : " + ex.getMessage());
             } finally {
