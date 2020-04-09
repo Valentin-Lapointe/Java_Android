@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Inscription">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <EditText
+            android:id="@+id/pays"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Pays"
+            app:layout_constraintEnd_toEndOf="@+id/ville"
+            app:layout_constraintStart_toStartOf="@+id/ville"
+            app:layout_constraintTop_toBottomOf="@+id/ville" />
+
+        <EditText
+            android:id="@+id/telephone"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Téléphone"
+            app:layout_constraintEnd_toEndOf="@+id/email"
+            app:layout_constraintStart_toStartOf="@+id/email"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="239dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/title_activity_inscription"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.081" />
+
+        <EditText
+            android:id="@+id/adresse"
+            android:layout_width="280dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="60dp"
+            android:ems="10"
+            android:hint="Adresse"
+            app:layout_constraintEnd_toEndOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Email"
+            app:layout_constraintEnd_toEndOf="@+id/pays"
+            app:layout_constraintStart_toStartOf="@+id/pays"
+            app:layout_constraintTop_toBottomOf="@+id/pays" />
+
+        <EditText
+            android:id="@+id/ville"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Ville"
+            app:layout_constraintEnd_toEndOf="@+id/cp"
+            app:layout_constraintStart_toStartOf="@+id/cp"
+            app:layout_constraintTop_toBottomOf="@+id/cp" />
+
+        <EditText
+            android:id="@+id/cp"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Code Postale"
+            app:layout_constraintEnd_toEndOf="@+id/adresse"
+            app:layout_constraintStart_toStartOf="@+id/adresse"
+            app:layout_constraintTop_toBottomOf="@+id/adresse" />
+
+        <Button
+            android:id="@+id/inscription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Finaliser l'inscription"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/telephone" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -32,8 +32,8 @@ public class User_Menu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent otherActivity = new Intent(getApplicationContext(), incident_declaration.class);
+                otherActivity.putExtra("UserId", user.id);
                 startActivity(otherActivity);
-                finish();
             }
         });
 
