@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Mission_Creation"></activity>
         <activity
             android:name=".admin_menu"
             android:label="@string/title_activity_admin_menu"
