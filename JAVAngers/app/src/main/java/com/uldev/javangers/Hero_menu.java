@@ -20,19 +20,23 @@ public class Hero_menu extends AppCompatActivity {
 
     public CivilModel civil = null;
     public UserModel user = null;
-
+    private Button mission;
+    private Button litige;
+    private Button rapport;
+    private Button profil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero_menu);
-
         civil = (CivilModel)getIntent().getSerializableExtra("Civil");
         user = (UserModel)getIntent().getParcelableExtra("User");
     }
 
     public void test(View view){
-        Toast.makeText(getApplicationContext(), civil.id + " " + user.id, Toast.LENGTH_SHORT).show();
+                Intent otherActivity = new Intent(getApplicationContext(), Missions.class);
+                startActivity(otherActivity);
+                finish();
     }
 
 }

@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(indent);
                     finish();
                 }
-
             }
         });
     }
