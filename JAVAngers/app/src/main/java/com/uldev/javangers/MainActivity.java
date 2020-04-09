@@ -3,6 +3,7 @@ package com.uldev.javangers;
 import android.content.Context;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +13,10 @@ import android.widget.Toast;
 import android.widget.EditText;
 
 
+import com.uldev.javangers.models.CivilModel;
 import com.uldev.javangers.models.UserModel;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
@@ -23,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private Button connection;
     private EditText login;
     private EditText password;
+
+
+    CivilModel civil = null;
+//    UserModel user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 UserModel user = null;
                 try {
                     user = testConn(view);
+
                 } catch (Exception ex) {
-                    System.out.println("debug : " + ex.getMessage());
+                    System.out.println("bug : " + ex.getMessage());
                 }
 
                 if(user == null){
@@ -81,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     
                     Intent indent = new Intent(getApplicationContext(), otherActivity);
-                    indent.putExtra("id_User", user.id);
+                    indent.putExtra("User", user);
+                    indent.putExtra("Civil", civil);
                     startActivity(indent);
                     finish();
                 }
@@ -90,19 +99,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public UserModel testConn(View view) throws ExecutionException, InterruptedException {
-//        BDD BDDconn = new BDD();
-//        BDDconn.execute("request");
-        //BDDconn.comment = "ceci est une demande créée via notre appli JAVAngers";
-        //BDDconn.status = 1;
-        //BDDconn.fkcivil = 1;
-        //BDDconn.execute("createdemande");
-
         BDD BDDconn = new BDD();
-        BDDconn.login = login.getText().toString();
-        BDDconn.password = password.getText().toString();
+        BDDconn.login = login.getText().toString().trim();
+        BDDconn.password = password.getText().toString().trim();
         BDDconn.execute("signIn").get();
+        civil = BDDconn.civil;
         return BDDconn.user;
-        // Do something in response to button click
     }
 }
 

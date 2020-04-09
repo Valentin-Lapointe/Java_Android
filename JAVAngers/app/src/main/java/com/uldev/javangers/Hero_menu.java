@@ -7,10 +7,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.uldev.javangers.models.CivilModel;
+import com.uldev.javangers.models.MissionModel;
+import com.uldev.javangers.models.UserModel;
 
 public class Hero_menu extends AppCompatActivity {
 
+    public CivilModel civil = null;
+    public UserModel user = null;
     private Button mission;
     private Button litige;
     private Button rapport;
@@ -20,46 +29,14 @@ public class Hero_menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero_menu);
+        civil = (CivilModel)getIntent().getSerializableExtra("Civil");
+        user = (UserModel)getIntent().getParcelableExtra("User");
+    }
 
-        this.mission = (Button) findViewById(R.id.button5);
-        mission.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    public void test(View view){
                 Intent otherActivity = new Intent(getApplicationContext(), Missions.class);
                 startActivity(otherActivity);
                 finish();
-            }
-        });
-
-//        this.litige = (Button) findViewById(R.id.button8);
-//        litige.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent otherActivity = new Intent(getApplicationContext(), Missions.class);
-//                startActivity(otherActivity);
-//                finish();
-//            }
-//        });
-
-//        this.rapport = (Button) findViewById(R.id.button7);
-//        rapport.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent otherActivity = new Intent(getApplicationContext(), Missions.class);
-//                startActivity(otherActivity);
-//                finish();
-//            }
-//        });
-//
-//        this.profil = (Button) findViewById(R.id.button6);
-//        profil.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent otherActivity = new Intent(getApplicationContext(), Missions.class);
-//                startActivity(otherActivity);
-//                finish();
-//            }
-//        });
     }
 
 }
