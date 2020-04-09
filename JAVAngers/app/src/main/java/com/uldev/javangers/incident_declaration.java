@@ -22,7 +22,7 @@ public class incident_declaration extends AppCompatActivity {
         BDD BDDconn = new BDD();
         BDDconn.comment = EditText_details.getText().toString();
         BDDconn.location = EditText_endroit.getText().toString();
-        int userID = getIntent().getIntExtra("userID", 0);
+        int userID = getIntent().getIntExtra("UserId", 0);
         BDDconn.userID = userID;
         BDDconn.doInBackground("foundcivilbyuser");
         BDDconn.doInBackground("createdemande");
