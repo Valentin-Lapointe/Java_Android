@@ -34,7 +34,6 @@ public class User_Menu extends AppCompatActivity {
                 Intent otherActivity = new Intent(getApplicationContext(), incident_declaration.class);
                 otherActivity.putExtra("UserId", user.id);
                 startActivity(otherActivity);
-                finish();
             }
         });
 
