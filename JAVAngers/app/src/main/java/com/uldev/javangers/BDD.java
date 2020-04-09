@@ -227,45 +227,6 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         }
     }
 
-    protected void getMissionById(int id) {
-        try {
-            Statement statement = dbConnection().createStatement();
-            try {
-                String sql = "SELECT * FROM t_Mission WHERE Id=" + id;
-                ResultSet result = statement.executeQuery(sql);
-
-                while (result.next()) {
-                    mission = new MissionModel(result);
-                    System.out.println(mission.title);
-                    System.out.println(mission.creationDate);
-                }
-            } catch (Exception ex) {
-                System.out.println("debug : " + ex.getMessage());
-            } finally {
-                statement.close();
-            }
-        }catch (Exception e){
-            System.out.println("bug :" + e.getMessage());
-        }
-    }
-
-    protected void addMission() {
-        try {
-            Statement statement = dbConnection().createStatement();
-            try {
-                //String sql = "INSERT INTO t_Mission (CreationDate, Title, Urgency, Comment, FK_Incident, FK_Mesure, FK_Itenerary, FK_Seriousness, FK_Admin) VALUES ()";
-               // statement.executeUpdate(sql);
-
-            } catch (Exception ex) {
-                System.out.println("debug : " + ex.getMessage());
-            } finally {
-                statement.close();
-            }
-        }catch (Exception e){
-            System.out.println("bug :" + e.getMessage());
-        }
-    }
-
     @Override
     protected Long doInBackground(String... functions) {
         for (String function : functions) {
@@ -284,12 +245,6 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             }
             if (function.equals("signUp")){
                 signUp(login, password);
-            }
-            if (function.equals("getMissionById")){
-                getMissionById(1);
-            }
-            if (function.equals("addMission")){
-                addMission();
             }
         }
         return null;
