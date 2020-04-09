@@ -49,8 +49,11 @@ public class Incidents extends AppCompatActivity {
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent indent = new Intent(getApplicationContext(), Incident.class);
-                startActivity(indent);
+                IncidentModel incident = new IncidentModel();
+                incident = (IncidentModel) lv.getItemAtPosition(position);
+                Intent intent = new Intent(getApplicationContext(), Incident.class);
+                intent.putExtra("Incident", incident);
+                startActivity(intent);
                 finish();
             }
         });
