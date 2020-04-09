@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.concurrent.ExecutionException;
+
 public class incident_declaration extends AppCompatActivity {
 
     @Override
@@ -16,7 +18,7 @@ public class incident_declaration extends AppCompatActivity {
         setContentView(R.layout.activity_incident_declaration);
     }
 
-    public void createIncident(View view) {
+    public void createIncident(View view) throws ExecutionException, InterruptedException {
         EditText EditText_endroit = (EditText) findViewById (R.id.editText10);
         EditText EditText_details = (EditText) findViewById (R.id.editText12);
         BDD BDDconn = new BDD();
@@ -24,8 +26,8 @@ public class incident_declaration extends AppCompatActivity {
         BDDconn.location = EditText_endroit.getText().toString();
         int userID = getIntent().getIntExtra("UserId", 0);
         BDDconn.userID = userID;
-        BDDconn.doInBackground("foundcivilbyuser");
-        BDDconn.doInBackground("createdemande");
+        BDDconn.execute("createdemande").get();
+        finish();
     }
 
 }
