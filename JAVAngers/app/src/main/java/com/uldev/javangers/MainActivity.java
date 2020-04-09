@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     CivilModel civil = null;
+//    UserModel user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
                     
                     Intent indent = new Intent(getApplicationContext(), otherActivity);
                     indent.putExtra("User", user);
+                    indent.putExtra("Civil", civil);
                     startActivity(indent);
                     finish();
                 }
-
             }
         });
     }

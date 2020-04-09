@@ -10,51 +10,33 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.uldev.javangers.models.CivilModel;
 import com.uldev.javangers.models.MissionModel;
 import com.uldev.javangers.models.UserModel;
 
 public class Hero_menu extends AppCompatActivity {
 
-    private Button button5;
-
+    public CivilModel civil = null;
+    public UserModel user = null;
+    private Button mission;
+    private Button litige;
+    private Button rapport;
+    private Button profil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero_menu);
+        civil = (CivilModel)getIntent().getSerializableExtra("Civil");
+        user = (UserModel)getIntent().getParcelableExtra("User");
+    }
 
-
-        Intent intent = getIntent();
-        if (intent != null){
-            final UserModel user = intent.getParcelableExtra("user");
-            if (user != null) {
-
-                this.button5 = (Button) findViewById(R.id.button5);
-
-                button5.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        System.out.println("userID = " + user.id);
-                        System.out.println("login = " + user.login);
-
-                        //Intent indent = new Intent(getApplicationContext(), Mission_Creation.class);
-                        //startActivity(indent);
-                        //finish();
-                    }
-                });
-
-
-            }else{
-                System.out.println("User null");
-            }
-        }
-        else{
-            System.out.println("Intent null");
-        }
-
-
+    public void test(View view){
+                Intent otherActivity = new Intent(getApplicationContext(), Missions.class);
+                startActivity(otherActivity);
+                finish();
     }
 
 }

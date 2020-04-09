@@ -3,6 +3,7 @@ package com.uldev.javangers.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -83,11 +84,6 @@ public class UserModel implements Parcelable {
     public Integer administrationRight = null;
     public Date lastModificationDate = null;
     public Integer id_Civil = null;
-
-    //Constructeur
-    public UserModel(){
-
-    }
 
     public UserModel(ResultSet result) throws SQLException {
         this.id = result.getInt("Id");
