@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.uldev.javangers">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,10 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Mission_Creation"></activity>
         <activity
             android:name=".admin_menu"
             android:label="@string/title_activity_admin_menu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Hero_menu"
             android:label="@string/title_activity_hero_menu"
@@ -71,5 +68,9 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
