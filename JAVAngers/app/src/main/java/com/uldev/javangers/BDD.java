@@ -439,77 +439,6 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         }
     }
 
-    protected void getMissionById(int id) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("toto");
-        }
-        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
-        String userbdd = "170323_ugo";
-        String passwd = "CHz93r3K3uUnyEPhP8Bf";
-
-        Connection conn = null;
-        try {
-            /* Initializing the connection */
-            conn = DriverManager.getConnection(url, userbdd, passwd);
-
-            Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM t_Mission WHERE Id=" + id;
-            ResultSet result = statement.executeQuery(sql);
-
-            while (result.next()) {
-                mission = new MissionModel(result);
-                System.out.println(mission.title);
-                System.out.println(mission.creationDate);
-            }
-        } catch (SQLException e) {
-            System.out.println("SQL connection error: " + e.getMessage());
-        } finally {
-            if (conn != null) {
-                try {
-                    /* CLosing connection */
-                    conn.close();
-                } catch (SQLException e) {
-                    System.out.println("Error while closing the connection: " + e.getMessage());
-                }
-            }
-        }
-    }
-
-    protected void addMission() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("toto");
-        }
-        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
-        String userbdd = "170323_ugo";
-        String passwd = "CHz93r3K3uUnyEPhP8Bf";
-
-        Connection conn = null;
-        try {
-            /* Initializing the connection */
-            conn = DriverManager.getConnection(url, userbdd, passwd);
-
-            Statement statement = conn.createStatement();
-            String sql = "INSERT INTO t_Mission (CreationDate, Title, Urgency, Comment, FK_Incident, FK_Mesure, FK_Itenerary, FK_Seriousness, FK_Admin) VALUES ()";
-            statement.executeUpdate(sql);
-
-        } catch (SQLException e) {
-            System.out.println("SQL connection error: " + e.getMessage());
-        } finally {
-            if (conn != null) {
-                try {
-                    /* CLosing connection */
-                    conn.close();
-                } catch (SQLException e) {
-                    System.out.println("Error while closing the connection: " + e.getMessage());
-                }
-            }
-        }
-    }
-
     @Override
     protected Long doInBackground(String... functions) {
         for (String function : functions) {
@@ -537,12 +466,6 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             }
             if (function.equals("insertContact")) {
                 insertContact(adresse, cp, ville, pays, email, telephone, ID_CIVIL);
-            }
-            if (function.equals("getMissionById")) {
-                getMissionById(1);
-            }
-            if (function.equals("addMission")) {
-                addMission();
             }
         }
         return null;
