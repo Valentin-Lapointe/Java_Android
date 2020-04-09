@@ -100,28 +100,28 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             conn = DriverManager.getConnection(url, userbdd, passwd);
 
             Statement statement = conn.createStatement();
-                ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Id=" + UserId.toString());
-                Integer fkciviltemp = null;
-                while (resultset.next()) {
-                   fkciviltemp = resultset.getInt(7);
-                   if (fkciviltemp!=null) {
-                       fkcivil = fkciviltemp;
-                    }
+            ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Id=" + UserId.toString());
+            Integer fkciviltemp = null;
+            while (resultset.next()) {
+                fkciviltemp = resultset.getInt(7);
+                if (fkciviltemp != null) {
+                    fkcivil = fkciviltemp;
                 }
-            } catch (SQLException e) {
-                System.out.println("SQL connection error: " + e.getMessage());
-            } finally {
-                if (conn != null) {
-                    try {
-                        /* CLosing connection */
-                        conn.close();
-                    } catch (SQLException e) {
-                        System.out.println("Error while closing the connection: " + e.getMessage());
-                    }
-                }
-                return fkcivil;
             }
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
+                }
+            }
+            return fkcivil;
         }
+    }
 
     protected void createdemande(String comment, Integer status, Integer fkcivil) {
         fkcivil = foundcivilbyuser(userID);
@@ -146,7 +146,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
 
-            statement.executeUpdate("INSERT INTO t_Incident (Comment, Status, FK_Civil, CreationDate, LastModificationDate) VALUES ('" + comment + "', " + 1 + ", " + fkcivil + ", '"+ dateFormat.format(date) +"', '"+ dateFormat.format(date) +"')");
+            statement.executeUpdate("INSERT INTO t_Incident (Comment, Status, FK_Civil, CreationDate, LastModificationDate) VALUES ('" + comment + "', " + 1 + ", " + fkcivil + ", '" + dateFormat.format(date) + "', '" + dateFormat.format(date) + "')");
         } catch (SQLException e) {
             System.out.println("SQL connection error: " + e.getMessage());
         } finally {
@@ -161,29 +161,30 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         }
     }
 
-//    protected Connection dbConnection() {
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//        } catch (ClassNotFoundException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
-//        String user = "170323_ugo";
-//        String passwd = "CHz93r3K3uUnyEPhP8Bf";
-//        try {
-//            Connection conn =  DriverManager.getConnection(url, user, passwd);
-//            return conn;
-//        } catch (SQLException e) {
-//            System.out.println("SQL connection error: " + e.getMessage());
-//            return null;
-//        }
-//    }
-
-    protected void signIn(String login, String password) {try {
-        Class.forName("com.mysql.jdbc.Driver");
-    } catch (ClassNotFoundException ex) {
-        System.out.println("toto");
+    protected Connection dbConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
+        String user = "170323_ugo";
+        String passwd = "CHz93r3K3uUnyEPhP8Bf";
+        try {
+            Connection conn = DriverManager.getConnection(url, user, passwd);
+            return conn;
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+            return null;
+        }
     }
+
+    protected void signIn(String login, String password) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("toto");
+        }
         String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
         String userbdd = "170323_ugo";
         String passwd = "CHz93r3K3uUnyEPhP8Bf";
@@ -194,29 +195,29 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             conn = DriverManager.getConnection(url, userbdd, passwd);
 
             Statement statement = conn.createStatement();
-                String sql = "SELECT * FROM t_User WHERE Login= '"+ login + "' AND Password= '"+ password +"'";
-                ResultSet result = statement.executeQuery(sql);
+            String sql = "SELECT * FROM t_User WHERE Login= '" + login + "' AND Password= '" + password + "'";
+            ResultSet result = statement.executeQuery(sql);
 
-                while (result.next()) {
-                    user = new UserModel(result);
-                }
+            while (result.next()) {
+                user = new UserModel(result);
+            }
 
-                getCivilById(user.id_Civil);
+            getCivilById(user.id_Civil);
 
 
-            } catch (SQLException e) {
-                System.out.println("SQL connection error: " + e.getMessage());
-            } finally {
-                if (conn != null) {
-                    try {
-                        /* CLosing connection */
-                        conn.close();
-                    } catch (SQLException e) {
-                        System.out.println("Error while closing the connection: " + e.getMessage());
-                    }
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
                 }
             }
         }
+    }
 
     protected Integer signUp(String login, String password) {
         try {
@@ -240,7 +241,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             Date date = new Date();
 
             // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
-            String sql = "INSERT INTO t_User (CreationDate, Login, Password, AdministrationRight) VALUES ('"+dateFormat.format(date)+"', '"+login+"', '"+password+"', '0')";
+            String sql = "INSERT INTO t_User (CreationDate, Login, Password, AdministrationRight) VALUES ('" + dateFormat.format(date) + "', '" + login + "', '" + password + "', '0')";
             //on envoie la requete a la BDD pour inscrire l'utilisateur
             statement.executeUpdate(sql);
 
@@ -291,7 +292,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                 Date date = new Date();
 
                 // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
-                String sql = "INSERT INTO t_Civil (CreationDate, LastName, FirstName, BirthDate) VALUES ('"+dateFormat.format(date)+"', '"+nom+"', '"+prenom+"', '"+date_naissance+"')";
+                String sql = "INSERT INTO t_Civil (CreationDate, LastName, FirstName, BirthDate) VALUES ('" + dateFormat.format(date) + "', '" + nom + "', '" + prenom + "', '" + date_naissance + "')";
                 //on envoie la requete a la BDD pour terminer l'inscription de l'utilisateur
                 statement.executeUpdate(sql);
 
@@ -303,7 +304,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                     civil = new CivilModel(Civil);
                 }
                 // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
-                String sql_3 = "UPDATE t_User SET LastModificationDate='"+dateFormat.format(date)+"', FK_Civil='"+civil.id+"' WHERE id ='"+ID_USER+"'";
+                String sql_3 = "UPDATE t_User SET LastModificationDate='" + dateFormat.format(date) + "', FK_Civil='" + civil.id + "' WHERE id ='" + ID_USER + "'";
                 //on envoie la requete a la BDD pour terminer l'inscription de l'utilisateur
                 statement.executeUpdate(sql_3);
 
@@ -315,10 +316,10 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             } finally {
                 statement.close();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("bug :" + e.getMessage());
         }
-    return 0;
+        return 0;
     }
 
     protected void insertContact(String adresse, String cp, String ville, String pays, String email, String telephone, int ID_CIVIL) {
@@ -344,14 +345,14 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                 Date date = new Date();
 
                 //on recupere l'id du civil pour l'enregistrer plus tard dans la table user
-                String sql = "SELECT * FROM t_Civil WHERE id='"+ID_CIVIL+"'";
+                String sql = "SELECT * FROM t_Civil WHERE id='" + ID_CIVIL + "'";
                 ResultSet Civil = statement.executeQuery(sql);
                 CivilModel civil = null;
                 while (Civil.next()) {
                     civil = new CivilModel(Civil);
                 }
                 // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
-                String sql_2 = "INSERT INTO t_ContactInformation (CreationDate, LastName, FirstName, Address1, ZipCode, City, FK_Country, PhoneNumber, Email) VALUES ('"+dateFormat.format(date)+"', '"+civil.lastName+"', '"+civil.firstName+"', '"+adresse+"', '"+cp+"', '"+ville+"', '1', '"+telephone+"', '"+email+"')";
+                String sql_2 = "INSERT INTO t_ContactInformation (CreationDate, LastName, FirstName, Address1, ZipCode, City, FK_Country, PhoneNumber, Email) VALUES ('" + dateFormat.format(date) + "', '" + civil.lastName + "', '" + civil.firstName + "', '" + adresse + "', '" + cp + "', '" + ville + "', '1', '" + telephone + "', '" + email + "')";
                 //on envoie la requete a la BDD pour enregistrer les information de contact de l'utilisateur
                 statement.executeUpdate(sql_2);
 
@@ -363,29 +364,28 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                     contact = new ContactInformationModel(Contact);
                 }
                 // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
-                String sql_4 = "UPDATE t_Civil SET LastModificationDate='"+dateFormat.format(date)+"', FK_ContactInformation='"+contact.id+"' WHERE id ='"+ID_CIVIL+"'";
+                String sql_4 = "UPDATE t_Civil SET LastModificationDate='" + dateFormat.format(date) + "', FK_ContactInformation='" + contact.id + "' WHERE id ='" + ID_CIVIL + "'";
                 //on envoie la requete a la BDD pour terminer l'inscription de l'utilisateur
                 statement.executeUpdate(sql_4);
 
 
             } catch (Exception ex) {
-                 System.out.println("debug : " + ex.getMessage());
+                System.out.println("debug : " + ex.getMessage());
             } finally {
                 statement.close();
             }
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("debug : " + e.getMessage());
         }
     }
 
-    protected void listIncidents(){
+    protected void listIncidents() {
         try {
             Connection conn = dbConnection();
             Statement statement = conn.createStatement();
             try {
                 incidents = new ArrayList<>();
-                String sql = "SELECT * FROM t_Incident";
+                String sql = "SELECT * FROM t_Incident ORDER BY CreationDate DESC";
                 ResultSet result = statement.executeQuery(sql);
 
                 while (result.next()) {
@@ -398,31 +398,11 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                 statement.close();
                 conn.close();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("bug :" + e.getMessage());
         }
     }
 
-//    protected void getIncidentById(int id) {
-//        try {
-//            Connection conn = dbConnection();
-//            Statement statement = conn.createStatement();
-//            try {
-//                String sql = "SELECT * FROM t_Civil WHERE Id="+ user.id_Civil;
-//                ResultSet resultCivil = statement.executeQuery(sql);
-//                while (resultCivil.next()) {
-//                    civil = new CivilModel(resultCivil);
-//                }
-//            } catch (Exception ex) {
-//                System.out.println("debug : " + ex.getMessage());
-//            } finally {
-//                statement.close();
-//                conn.close();
-//            }
-//        }catch (Exception e){
-//            System.out.println("bug :" + e.getMessage());
-//        }
-//    }
     protected void getCivilById(int id) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -439,25 +419,25 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             conn = DriverManager.getConnection(url, userbdd, passwd);
 
             Statement statement = conn.createStatement();
-                String sql = "SELECT * FROM t_Civil WHERE Id="+ user.id_Civil;
-                ResultSet resultCivil = statement.executeQuery(sql);
+            String sql = "SELECT * FROM t_Civil WHERE Id=" + user.id_Civil;
+            ResultSet resultCivil = statement.executeQuery(sql);
 
-                while (resultCivil.next()) {
-                    civil = new CivilModel(resultCivil);
-                }
-            } catch (SQLException e) {
-                System.out.println("SQL connection error: " + e.getMessage());
-            } finally {
-                if (conn != null) {
-                    try {
-                        /* CLosing connection */
-                        conn.close();
-                    } catch (SQLException e) {
-                        System.out.println("Error while closing the connection: " + e.getMessage());
-                    }
+            while (resultCivil.next()) {
+                civil = new CivilModel(resultCivil);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
                 }
             }
         }
+    }
 
     protected void getMissionById(int id) {
         try {
@@ -475,27 +455,27 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             conn = DriverManager.getConnection(url, userbdd, passwd);
 
             Statement statement = conn.createStatement();
-                String sql = "SELECT * FROM t_Mission WHERE Id=" + id;
-                ResultSet result = statement.executeQuery(sql);
+            String sql = "SELECT * FROM t_Mission WHERE Id=" + id;
+            ResultSet result = statement.executeQuery(sql);
 
-                while (result.next()) {
-                    mission = new MissionModel(result);
-                    System.out.println(mission.title);
-                    System.out.println(mission.creationDate);
-                }
-            } catch (SQLException e) {
-                System.out.println("SQL connection error: " + e.getMessage());
-            } finally {
-                if (conn != null) {
-                    try {
-                        /* CLosing connection */
-                        conn.close();
-                    } catch (SQLException e) {
-                        System.out.println("Error while closing the connection: " + e.getMessage());
-                    }
+            while (result.next()) {
+                mission = new MissionModel(result);
+                System.out.println(mission.title);
+                System.out.println(mission.creationDate);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
                 }
             }
         }
+    }
 
     protected void addMission() {
         try {
@@ -513,54 +493,55 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             conn = DriverManager.getConnection(url, userbdd, passwd);
 
             Statement statement = conn.createStatement();
-                String sql = "INSERT INTO t_Mission (CreationDate, Title, Urgency, Comment, FK_Incident, FK_Mesure, FK_Itenerary, FK_Seriousness, FK_Admin) VALUES ()";
-                statement.executeUpdate(sql);
+            String sql = "INSERT INTO t_Mission (CreationDate, Title, Urgency, Comment, FK_Incident, FK_Mesure, FK_Itenerary, FK_Seriousness, FK_Admin) VALUES ()";
+            statement.executeUpdate(sql);
 
-            } catch (SQLException e) {
-                System.out.println("SQL connection error: " + e.getMessage());
-            } finally {
-                if (conn != null) {
-                    try {
-                        /* CLosing connection */
-                        conn.close();
-                    } catch (SQLException e) {
-                        System.out.println("Error while closing the connection: " + e.getMessage());
-                    }
+        } catch (SQLException e) {
+            System.out.println("SQL connection error: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    /* CLosing connection */
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error while closing the connection: " + e.getMessage());
                 }
             }
         }
+    }
 
     @Override
     protected Long doInBackground(String... functions) {
         for (String function : functions) {
             System.out.println(function);
-            if (function.equals("request")){
+            if (function.equals("request")) {
                 request();
             }
-            if (function.equals("createdemande")){
+            if (function.equals("createdemande")) {
                 createdemande(comment, status, fkcivil);
             }
-            if (function.equals("foundcivilbyuser")){
+            if (function.equals("foundcivilbyuser")) {
                 foundcivilbyuser(userID);
             }
-            if (function.equals("signIn")){
+            if (function.equals("signIn")) {
                 signIn(login, password);
             }
-            if (function.equals("signUp")){
+            if (function.equals("signUp")) {
                 signUp(login, password);
             }
-            if (function.equals("listIncidents")){
+            if (function.equals("listIncidents")) {
                 listIncidents();
-            if (function.equals("insertCivil")){
+            }
+            if (function.equals("insertCivil")) {
                 insertCivil(nom, prenom, date_naissance, ID_USER);
             }
             if (function.equals("insertContact")) {
                 insertContact(adresse, cp, ville, pays, email, telephone, ID_CIVIL);
             }
-            if (function.equals("getMissionById")){
+            if (function.equals("getMissionById")) {
                 getMissionById(1);
             }
-            if (function.equals("addMission")){
+            if (function.equals("addMission")) {
                 addMission();
             }
         }
