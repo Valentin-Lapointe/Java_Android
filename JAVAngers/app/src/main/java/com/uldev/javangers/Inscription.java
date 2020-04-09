@@ -2,18 +2,17 @@ package com.uldev.javangers;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.concurrent.ExecutionException;
+
 public class Inscription extends AppCompatActivity {
 
     private Button connexion;
-    private Button inscription;
+    private Button suivant;
     private EditText editText;
     private EditText editText11;
     private EditText editText2;
@@ -33,16 +32,29 @@ public class Inscription extends AppCompatActivity {
             }
         });
 
-        this.inscription = (Button) findViewById(R.id.inscription);
-        inscription.setOnClickListener(new View.OnClickListener() {
+        this.suivant = (Button) findViewById(R.id.suivant);
+        suivant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertUser(v);
+                Integer id_user = 0;
+                try{
+                    id_user = insertUser(v);
+                }catch(Exception e){
+                    System.out.println("debug :" + e.getMessage());
+                }
+
+                if(id_user != 0){
+                    Intent otherActivity = new Intent(getApplicationContext(), Inscription_civil.class);
+                    otherActivity.putExtra("id_user", id_user);
+                    startActivity(otherActivity);
+                    finish();
+                }
+
             }
         });
     }
 
-    public void insertUser(View view){
+    public int insertUser(View view) throws ExecutionException, InterruptedException {
 
         //on recupere les valeurs dans les champs
         EditText editText = (EditText) findViewById(R.id.editText);
@@ -60,15 +72,11 @@ public class Inscription extends AppCompatActivity {
             BDD BDDconn = new BDD();
             BDD.login = login;
             BDD.password = password;
-            BDDconn.execute("signUp");
-
-            //une fois l'appel de la fonction faite, on retourne a la page de connexion afin de pouvoir se connecter
-            Intent otherActivity = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(otherActivity);
-            finish();
-
+            BDDconn.execute("signUp").get();
+            return BDDconn.id_user;
         }
 
+        return 0;
     }
 
 }

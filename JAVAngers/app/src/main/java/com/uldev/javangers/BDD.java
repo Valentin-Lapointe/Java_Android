@@ -1,9 +1,10 @@
 package com.uldev.javangers;
 import android.os.AsyncTask;
 
+import com.uldev.javangers.models.CivilModel;
+import com.uldev.javangers.models.ContactInformationModel;
 import com.uldev.javangers.models.UserModel;
 
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,6 +20,19 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     //paramètres pour les fonctions
     public static String password;
     public static String login;
+    public static String nom;
+    public static String prenom;
+    public static String date_naissance;
+    public static String adresse;
+    public static String cp;
+    public static String ville;
+    public static String pays;
+    public static String email;
+    public static String telephone;
+    public static Integer ID_USER;
+    public static Integer ID_CIVIL;
+    public Integer id_user;
+    public Integer id_civil;
     String comment = "";
     Integer status = null;
     Integer fkcivil = null;
@@ -174,7 +188,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         }
     }
 
-    protected void signUp(String login, String password) {
+    protected Integer signUp(String login, String password) {
         try {
             //on se connecte a la BDD
             Statement statement = dbConnection().createStatement();
@@ -188,6 +202,102 @@ public class BDD extends AsyncTask<String, Integer, Long> {
                 String sql = "INSERT INTO t_User (CreationDate, Login, Password, AdministrationRight) VALUES ('"+dateFormat.format(date)+"', '"+login+"', '"+password+"', '0')";
                 //on envoie la requete a la BDD pour inscrire l'utilisateur
                 statement.executeUpdate(sql);
+
+                String sql_2 = "SELECT * FROM t_User WHERE id= LAST_INSERT_ID()";
+                ResultSet User = statement.executeQuery(sql_2);
+                UserModel user = null;
+                while (User.next()) {
+                    user = new UserModel(User);
+                }
+                id_user = user.id;
+                return id_user;
+
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    return 0;
+    }
+
+    protected Integer insertCivil(String nom, String prenom, String date_naissance, int ID_USER) {
+        try {
+            //on se connecte a la BDD
+            Statement statement = dbConnection().createStatement();
+            try {
+
+                //on recupere la date actuelle pour l'enregistrer en BDD
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+
+                // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
+                String sql = "INSERT INTO t_Civil (CreationDate, LastName, FirstName, BirthDate) VALUES ('"+dateFormat.format(date)+"', '"+nom+"', '"+prenom+"', '"+date_naissance+"')";
+                //on envoie la requete a la BDD pour terminer l'inscription de l'utilisateur
+                statement.executeUpdate(sql);
+
+                //on recupere l'id du civil pour l'enregistrer plus tard dans la table user
+                String sql_2 = "SELECT * FROM t_Civil WHERE id= LAST_INSERT_ID()";
+                ResultSet Civil = statement.executeQuery(sql_2);
+                CivilModel civil = null;
+                while (Civil.next()) {
+                    civil = new CivilModel(Civil);
+                }
+                // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
+                String sql_3 = "UPDATE t_User SET LastModificationDate='"+dateFormat.format(date)+"', FK_Civil='"+civil.id+"' WHERE id ='"+ID_USER+"'";
+                //on envoie la requete a la BDD pour terminer l'inscription de l'utilisateur
+                statement.executeUpdate(sql_3);
+
+                id_civil = civil.id;
+                return id_civil;
+
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    return 0;
+    }
+
+    protected void insertContact(String adresse, String cp, String ville, String pays, String email, String telephone, int ID_CIVIL) {
+        try {
+            //on se connecte a la BDD
+            Statement statement = dbConnection().createStatement();
+            try {
+
+                //on recupere la date actuelle pour l'enregistrer en BDD
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+
+                //on recupere l'id du civil pour l'enregistrer plus tard dans la table user
+                String sql = "SELECT * FROM t_Civil WHERE id='"+ID_CIVIL+"'";
+                ResultSet Civil = statement.executeQuery(sql);
+                CivilModel civil = null;
+                while (Civil.next()) {
+                    civil = new CivilModel(Civil);
+                }
+                // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
+                String sql_2 = "INSERT INTO t_ContactInformation (CreationDate, LastName, FirstName, Address1, ZipCode, City, FK_Country, PhoneNumber, Email) VALUES ('"+dateFormat.format(date)+"', '"+civil.lastName+"', '"+civil.firstName+"', '"+adresse+"', '"+cp+"', '"+ville+"', '1', '"+telephone+"', '"+email+"')";
+                //on envoie la requete a la BDD pour enregistrer les information de contact de l'utilisateur
+                statement.executeUpdate(sql_2);
+
+                //on recupere l'id du civil pour l'enregistrer plus tard dans la table user
+                String sql_3 = "SELECT * FROM t_ContactInformation WHERE id= LAST_INSERT_ID()";
+                ResultSet Contact = statement.executeQuery(sql_3);
+                ContactInformationModel contact = null;
+                while (Contact.next()) {
+                    contact = new ContactInformationModel(Contact);
+                }
+                // on crée la chaine SQL avec les valeurs recuprer des champs de l'application
+                String sql_4 = "UPDATE t_Civil SET LastModificationDate='"+dateFormat.format(date)+"', FK_ContactInformation='"+contact.id+"' WHERE id ='"+ID_CIVIL+"'";
+                //on envoie la requete a la BDD pour terminer l'inscription de l'utilisateur
+                statement.executeUpdate(sql_4);
+
 
             } catch (Exception ex) {
                 System.out.println("debug : " + ex.getMessage());
@@ -217,6 +327,12 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             }
             if (function.equals("signUp")){
                 signUp(login, password);
+            }
+            if (function.equals("insertCivil")){
+                insertCivil(nom, prenom, date_naissance, ID_USER);
+            }
+            if (function.equals("insertContact")){
+                insertContact(adresse, cp, ville, pays, email, telephone, ID_CIVIL);
             }
         }
         return null;
