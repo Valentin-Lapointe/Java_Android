@@ -1,6 +1,7 @@
 package com.uldev.javangers;
 import android.os.AsyncTask;
 
+import com.uldev.javangers.models.IncidentModel;
 import com.uldev.javangers.models.UserModel;
 
 import java.net.URL;
@@ -12,7 +13,9 @@ import java.sql.Statement;
 import java.lang.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class BDD extends AsyncTask<String, Integer, Long> {
 
@@ -26,6 +29,7 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     Integer userID = null;
 
     UserModel user = null;
+    List<IncidentModel> incidents = null;
 
 
     protected void request() {
@@ -201,6 +205,51 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         }
     }
 
+    protected void listIncidents(){
+        try {
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
+            try {
+                incidents = new ArrayList<>();
+                String sql = "SELECT * FROM t_Incident";
+                ResultSet result = statement.executeQuery(sql);
+
+                while (result.next()) {
+                    IncidentModel incident = new IncidentModel(result);
+                    incidents.add(incident);
+                }
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+                conn.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
+//    protected void getIncidentById(int id) {
+//        try {
+//            Connection conn = dbConnection();
+//            Statement statement = conn.createStatement();
+//            try {
+//                String sql = "SELECT * FROM t_Civil WHERE Id="+ user.id_Civil;
+//                ResultSet resultCivil = statement.executeQuery(sql);
+//                while (resultCivil.next()) {
+//                    civil = new CivilModel(resultCivil);
+//                }
+//            } catch (Exception ex) {
+//                System.out.println("debug : " + ex.getMessage());
+//            } finally {
+//                statement.close();
+//                conn.close();
+//            }
+//        }catch (Exception e){
+//            System.out.println("bug :" + e.getMessage());
+//        }
+//    }
+
     @Override
     protected Long doInBackground(String... functions) {
         for (String function : functions) {
@@ -219,6 +268,9 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             }
             if (function.equals("signUp")){
                 signUp(login, password);
+            }
+            if (function.equals("listIncidents")){
+                listIncidents();
             }
         }
         return null;

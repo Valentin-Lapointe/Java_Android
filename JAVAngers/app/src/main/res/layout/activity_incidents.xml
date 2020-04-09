@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Incidents">
+    tools:context=".Incidents"
+    android:background="@drawable/background">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,6 +28,7 @@
             app:layout_constraintVertical_bias="0.081" />
 
         <ListView
+            android:id="@+id/list"
             android:layout_width="395dp"
             android:layout_height="565dp"
             android:layout_marginStart="8dp"

@@ -28,4 +28,9 @@ public class IncidentModel {
         this.id_Civil = result.getInt("FK_Civil");
 
     }
+
+    @Override
+    public String toString(){
+        return this.comment;
+    }
 }
