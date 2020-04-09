@@ -3,6 +3,7 @@ import android.os.AsyncTask;
 
 import com.uldev.javangers.models.CivilModel;
 import com.uldev.javangers.models.ContactInformationModel;
+import com.uldev.javangers.models.MissionModel;
 import com.uldev.javangers.models.UserModel;
 
 import java.sql.Connection;
@@ -38,6 +39,10 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     Integer fkcivil = null;
     String location = "";
     Integer userID = null;
+
+    UserModel user = null;
+    CivilModel civil = null;
+    MissionModel mission = null;
 
 
     protected void request() {
@@ -78,37 +83,22 @@ public class BDD extends AsyncTask<String, Integer, Long> {
 
     protected void foundcivilbyuser(Integer UserId) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("toto");
-        }
-        String url = "jdbc:mysql://mysql-valentin-lapointe.alwaysdata.net:3306/valentin-lapointe_java_android?autoReconnect=true";
-        String user = "170323_ugo";
-        String passwd = "CHz93r3K3uUnyEPhP8Bf";
-
-        Connection conn = null;
-        try {
-            /* Initializing the connection */
-            conn = DriverManager.getConnection(url, user, passwd);
-
+            Connection conn = dbConnection();
             Statement statement = conn.createStatement();
-
-            ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Id=" + UserId.toString());
-            while (resultset.next()) {
-                fkcivil = resultset.getInt(7);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("SQL connection error: " + e.getMessage());
-        } finally {
-            if (conn != null) {
-                try {
-                    /* CLosing connection */
-                    conn.close();
-                } catch (SQLException e) {
-                    System.out.println("Error while closing the connection: " + e.getMessage());
+            try {
+                ResultSet resultset = statement.executeQuery("SELECT * FROM t_User WHERE Id=" + UserId.toString());
+                while (resultset.next()) {
+                   fkcivil = resultset.getInt(7);
                 }
+
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+                conn.close();
             }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
         }
     }
 
@@ -168,20 +158,25 @@ public class BDD extends AsyncTask<String, Integer, Long> {
 
     protected void signIn(String login, String password) {
         try {
-            Statement statement = dbConnection().createStatement();
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
             try {
                 String sql = "SELECT * FROM t_User WHERE Login= '"+ login + "' AND Password= '"+ password +"'";
                 ResultSet result = statement.executeQuery(sql);
-                UserModel user;
+
                 while (result.next()) {
                     user = new UserModel(result);
-                    System.out.println(user.login);
-                    System.out.println(user.creationDate);
                 }
+
+                getCivilById(user.id_Civil);
+
+
+
             } catch (Exception ex) {
                 System.out.println("debug : " + ex.getMessage());
             } finally {
                 statement.close();
+                conn.close();
             }
         }catch (Exception e){
             System.out.println("bug :" + e.getMessage());
@@ -191,7 +186,8 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     protected Integer signUp(String login, String password) {
         try {
             //on se connecte a la BDD
-            Statement statement = dbConnection().createStatement();
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
             try {
 
                 //on recupere la date actuelle pour l'enregistrer en BDD
@@ -300,9 +296,74 @@ public class BDD extends AsyncTask<String, Integer, Long> {
 
 
             } catch (Exception ex) {
+                 System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
+    protected void getCivilById(int id) {
+        try {
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
+            try {
+                String sql = "SELECT * FROM t_Civil WHERE Id="+ user.id_Civil;
+                ResultSet resultCivil = statement.executeQuery(sql);
+
+                while (resultCivil.next()) {
+                    civil = new CivilModel(resultCivil);
+                }
+            } catch (Exception ex) {
                 System.out.println("debug : " + ex.getMessage());
             } finally {
                 statement.close();
+                conn.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
+    protected void getMissionById(int id) {
+        try {
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
+            try {
+                String sql = "SELECT * FROM t_Mission WHERE Id=" + id;
+                ResultSet result = statement.executeQuery(sql);
+
+                while (result.next()) {
+                    mission = new MissionModel(result);
+                    System.out.println(mission.title);
+                    System.out.println(mission.creationDate);
+                }
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+                conn.close();
+            }
+        }catch (Exception e){
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
+    protected void addMission() {
+        try {
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
+            try {
+                //String sql = "INSERT INTO t_Mission (CreationDate, Title, Urgency, Comment, FK_Incident, FK_Mesure, FK_Itenerary, FK_Seriousness, FK_Admin) VALUES ()";
+               // statement.executeUpdate(sql);
+
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+                conn.close();
             }
         }catch (Exception e){
             System.out.println("bug :" + e.getMessage());
@@ -331,8 +392,14 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             if (function.equals("insertCivil")){
                 insertCivil(nom, prenom, date_naissance, ID_USER);
             }
-            if (function.equals("insertContact")){
+            if (function.equals("insertContact")) {
                 insertContact(adresse, cp, ville, pays, email, telephone, ID_CIVIL);
+            }
+            if (function.equals("getMissionById")){
+                getMissionById(1);
+            }
+            if (function.equals("addMission")){
+                addMission();
             }
         }
         return null;

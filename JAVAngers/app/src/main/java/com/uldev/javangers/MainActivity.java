@@ -1,14 +1,24 @@
 package com.uldev.javangers;
 
+import android.content.Context;
+
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import android.widget.EditText;
 
 
+import com.uldev.javangers.models.CivilModel;
+import com.uldev.javangers.models.UserModel;
+
+import java.io.Serializable;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private Button connection;
     private EditText login;
     private EditText password;
+
+
+    CivilModel civil = null;
+//    UserModel user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,28 +56,55 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(login.getText().toString());
                 System.out.println(password.getText().toString());
 
-                TestConn(view);
+                UserModel user = null;
+                try {
+                    user = testConn(view);
 
-                Intent indent = new Intent(getApplicationContext(), User_Menu.class);
-                startActivity(indent);
-                finish();
+                } catch (Exception ex) {
+                    System.out.println("bug : " + ex.getMessage());
+                }
+
+                if(user == null){
+                    Toast.makeText(getApplicationContext(), "Idenfiants incorrects", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Class otherActivity = null;
+                    switch (user.administrationRight){
+                        case 0: {
+                            otherActivity = User_Menu.class;
+                            break;
+                        }
+                        case 1: {
+                            otherActivity = Hero_menu.class;
+                            break;
+                        }
+                        case 2: {
+                            otherActivity = admin_menu.class;
+                            break;
+                        }
+                        case 3: {
+                            otherActivity = SU_menu.class;
+                            break;
+                        }
+                    }
+                    
+                    Intent indent = new Intent(getApplicationContext(), otherActivity);
+                    indent.putExtra("User", user);
+                    indent.putExtra("Civil", civil);
+                    startActivity(indent);
+                    finish();
+                }
             }
         });
     }
 
-    public void TestConn(View view) {
-//        BDD BDDconn = new BDD();
-//        BDDconn.execute("request");
-        //BDDconn.comment = "ceci est une demande créée via notre appli JAVAngers";
-        //BDDconn.status = 1;
-        //BDDconn.fkcivil = 1;
-        //BDDconn.execute("createdemande");
+    public UserModel testConn(View view) throws ExecutionException, InterruptedException {
         BDD BDDconn = new BDD();
-        BDDconn.login = login.getText().toString();
-        BDDconn.password = password.getText().toString();
-        BDDconn.execute("signIn");
-
-        // Do something in response to button click
+        BDDconn.login = login.getText().toString().trim();
+        BDDconn.password = password.getText().toString().trim();
+        BDDconn.execute("signIn").get();
+        civil = BDDconn.civil;
+        return BDDconn.user;
     }
 }
 
