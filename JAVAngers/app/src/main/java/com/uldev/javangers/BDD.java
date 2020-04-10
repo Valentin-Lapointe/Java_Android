@@ -200,9 +200,8 @@ public class BDD extends AsyncTask<String, Integer, Long> {
 
             while (result.next()) {
                 user = new UserModel(result);
+                getCivilById(user.id_Civil);
             }
-
-            getCivilById(user.id_Civil);
 
 
         } catch (SQLException e) {
