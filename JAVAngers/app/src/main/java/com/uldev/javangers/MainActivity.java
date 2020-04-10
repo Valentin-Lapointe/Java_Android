@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 
 import com.uldev.javangers.models.CivilModel;
+import com.uldev.javangers.models.HeroModel;
 import com.uldev.javangers.models.UserModel;
 
 import java.io.Serializable;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     CivilModel civil = null;
 //    UserModel user = null;
+    HeroModel hero = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,16 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
                         case 1: {
-                            otherActivity = Hero_menu.class;
+                            try {
+                                user = testConn(view);
+                                BDD db = new BDD();
+                                db.id_civil = civil.id;
+                                db.execute("getHeroByCivilId").get();
+                                hero = db.hero;
+                                otherActivity = Hero_menu.class;
+                            } catch (Exception ex) {
+                                System.out.println("bug : " + ex.getMessage());
+                            }
                             break;
                         }
                         case 2: {
@@ -91,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
                     Intent indent = new Intent(getApplicationContext(), otherActivity);
                     indent.putExtra("User", user);
                     indent.putExtra("Civil", civil);
+                    if(otherActivity == Hero_menu.class){
+                        indent.putExtra("Hero", hero);
+                    }
                     startActivity(indent);
                     finish();
                 }

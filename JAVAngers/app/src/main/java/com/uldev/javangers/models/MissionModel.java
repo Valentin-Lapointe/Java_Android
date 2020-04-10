@@ -43,5 +43,11 @@ public class MissionModel implements Serializable {
         this.id_Seriousness = result.getInt("FK_Seriousness");
         this.id_Admin = result.getInt("FK_Admin");
 
+    }@Override
+    public String toString(){
+        return this.title;
     }
+
+
+
 }
