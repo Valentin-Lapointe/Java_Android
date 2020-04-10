@@ -42,7 +42,6 @@ public class Incidents extends AppCompatActivity {
         }
 
         lv = (ListView) findViewById(R.id.list);
-
         final ArrayAdapter<IncidentModel> adapter = new ArrayAdapter<IncidentModel>(Incidents.this,
                 android.R.layout.simple_list_item_1, incidents);
         lv.setAdapter(adapter);

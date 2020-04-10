@@ -83,7 +83,8 @@
             android:layout_marginStart="8dp"
             android:text="Créer une mission"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="667dp" />
+            tools:layout_editor_absoluteY="667dp"
+            tools:ignore="MissingConstraints" />
 
         <Button
             android:id="@+id/button4"
@@ -92,7 +93,8 @@
             android:layout_marginEnd="8dp"
             android:text="Classer sans suite"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="667dp" />
+            tools:layout_editor_absoluteY="667dp"
+            tools:ignore="MissingConstraints" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>

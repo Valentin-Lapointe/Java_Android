@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Mission"
+    android:background="@drawable/background">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+
+        <Button
+            android:id="@+id/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textDetail"
+            android:layout_marginStart="116dp"
+            android:layout_marginBottom="40dp"
+            android:text="Accepter la mission"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textCreationDate"
+            android:layout_width="240dp"
+            android:layout_height="37dp"
+            android:layout_below="@id/textType"
+            android:layout_marginBottom="24dp"
+            android:text="Mission crée le XX/XX/XX"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/textlocation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textlocation"
+            android:layout_width="240dp"
+            android:layout_height="67dp"
+            android:layout_below="@id/textCreationDate"
+            android:layout_marginBottom="52dp"
+            android:text="Emplacement : XXXXXXXXXXXX"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/textDetail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textType"
+            android:layout_width="240dp"
+            android:layout_height="31dp"
+            android:layout_below="@id/titleMission"
+            android:text="Type :"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/textCreationDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleMission"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textDetail"
+            android:layout_width="240dp"
+            android:layout_height="130dp"
+            android:layout_below="@id/textlocation"
+            android:layout_marginBottom="100dp"
+            android:text="Détail:"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/accept"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/titleMission"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_above="@id/textType"
+            android:layout_marginTop="8dp"
+            android:text="Titre Mission"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.066" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>

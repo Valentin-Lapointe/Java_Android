@@ -1,6 +1,7 @@
 package com.uldev.javangers;
 import android.os.AsyncTask;
 
+import com.uldev.javangers.models.HeroModel;
 import com.uldev.javangers.models.IncidentModel;
 import com.uldev.javangers.models.CivilModel;
 import com.uldev.javangers.models.ContactInformationModel;
@@ -47,6 +48,9 @@ public class BDD extends AsyncTask<String, Integer, Long> {
     List<IncidentModel> incidents = null;
     CivilModel civil = null;
     MissionModel mission = null;
+    List<MissionModel> missions = null;
+    Integer heroID = null;
+    HeroModel hero = null;
 
 
     protected void request() {
@@ -439,6 +443,83 @@ public class BDD extends AsyncTask<String, Integer, Long> {
         }
     }
 
+
+    protected void listMissionsByHeroId(int id_hero) {
+        try {
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
+            try {
+                missions = new ArrayList<>();
+                String sql = "SELECT * from t_Entity_Mission \n" +
+                             "INNER JOIN t_Mission ON FK_Mission = Id\n" +
+                             "WHERE FK_Hero = "+ id_hero + "\n" +
+                             "ORDER BY CreationDate DESC";
+
+                ResultSet result = statement.executeQuery(sql);
+
+                while (result.next()) {
+                    MissionModel mission = new MissionModel(result);
+                    missions.add(mission);
+                }
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+                conn.close();
+            }
+        } catch (Exception e) {
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
+    protected void listMissions() {
+        try {
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
+            try {
+                missions = new ArrayList<>();
+                String sql = "SELECT * from t_Mission ORDER BY CreationDate DESC";
+
+                ResultSet result = statement.executeQuery(sql);
+
+                while (result.next()) {
+                    MissionModel mission = new MissionModel(result);
+                    missions.add(mission);
+                }
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+                conn.close();
+            }
+        } catch (Exception e) {
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
+    protected void getHeroByCivilId(int id_civil) {
+        try {
+            Connection conn = dbConnection();
+            Statement statement = conn.createStatement();
+            try {
+                String sql = "SELECT * FROM t_SuperCivil WHERE FK_Civil = "+ id_civil + "";
+
+                ResultSet result = statement.executeQuery(sql);
+
+                while (result.next()) {
+                    hero = new HeroModel(result);
+                }
+            } catch (Exception ex) {
+                System.out.println("debug : " + ex.getMessage());
+            } finally {
+                statement.close();
+                conn.close();
+            }
+        } catch (Exception e) {
+            System.out.println("bug :" + e.getMessage());
+        }
+    }
+
     @Override
     protected Long doInBackground(String... functions) {
         for (String function : functions) {
@@ -466,6 +547,15 @@ public class BDD extends AsyncTask<String, Integer, Long> {
             }
             if (function.equals("insertContact")) {
                 insertContact(adresse, cp, ville, pays, email, telephone, ID_CIVIL);
+            }
+            if (function.equals("listMissionsByHeroId")){
+                listMissionsByHeroId(heroID);
+            }
+            if (function.equals("listMissions")){
+                listMissions();
+            }
+            if (function.equals("getHeroByCivilId")){
+                getHeroByCivilId(id_civil);
             }
         }
         return null;
